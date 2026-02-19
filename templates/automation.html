@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% block title %}AI & Automation | Galaxy Ops Tech Roadmap{% endblock %}
+{% block content %}
+<div class="page">
+    <div class="page-header">
+        <div class="page-title">AI & Automation Roadmap</div>
+        <div class="page-sub">From manual workflows to API-driven, data-first, LLM-augmented operations</div>
+    </div>
+
+    <!-- Automation maturity overview -->
+    <div class="grid-3 section">
+        <div class="card" style="border-top:3px solid var(--red);">
+            <div style="font-size:24px; margin-bottom:10px;">🔧</div>
+            <div style="font-size:14px; font-weight:700; margin-bottom:6px; color:var(--red);">Today — Manual & Batch</div>
+            <div style="font-size:13px; color:var(--text-dim); line-height:1.7;">Overnight batch reconciliation. Excel break management. Manual settlement instructions. Reactive exception handling. Scheduled regulatory reports.</div>
+        </div>
+        <div class="card" style="border-top:3px solid var(--gold);">
+            <div style="font-size:24px; margin-bottom:10px;">⚙️</div>
+            <div style="font-size:14px; font-weight:700; margin-bottom:6px; color:var(--gold);">In Progress — API-Native</div>
+            <div style="font-size:13px; color:var(--text-dim); line-height:1.7;">Event-driven trade booking. Real-time intraday reconciliation. API-based settlement instructions. Automated regulatory filing pipelines. Structured exception workflows.</div>
+        </div>
+        <div class="card" style="border-top:3px solid var(--green);">
+            <div style="font-size:24px; margin-bottom:10px;">🤖</div>
+            <div style="font-size:14px; font-weight:700; margin-bottom:6px; color:var(--green);">Target — AI-Augmented</div>
+            <div style="font-size:13px; color:var(--text-dim); line-height:1.7;">LLM-driven exception triage. ML break root cause classification. Predictive settlement fails detection. Auto-generated regulatory change impact analysis. Zero-touch reconciliation.</div>
+        </div>
+    </div>
+
+    <!-- AI Initiatives -->
+    <div class="section">
+        <div class="section-header"><div class="section-title">AI-Driven Initiatives</div></div>
+        <div class="grid-2">
+
+            <div class="card">
+                <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+                    <div style="width:40px; height:40px; background:rgba(124,58,237,0.2); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:20px;">🧠</div>
+                    <div>
+                        <div style="font-weight:600; font-size:14px;">LLM Regulatory Change Monitor</div>
+                        <span class="badge badge-green" style="margin-top:2px;">Live at NBC</span>
+                    </div>
+                </div>
+                <div style="font-size:13px; color:var(--text-dim); line-height:1.7; margin-bottom:14px;">LLM-based platform monitoring CFTC, SEC, HKMA, EMIR rule changes. Generates compliance requirement summaries and automated alerts. Replaced external vendor subscriptions with internal integration. Directly applicable to Galaxy's multi-jurisdiction regulatory stack.</div>
+                <div class="card-title">Galaxy Application</div>
+                <div style="font-size:13px; color:var(--text-dim);">Monitor FIT21/Clarity Act developments, CFTC digital asset rulings, SEC guidance on tokenized securities — automatically flag operational impact across all workstreams.</div>
+            </div>
+
+            <div class="card">
+                <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+                    <div style="width:40px; height:40px; background:rgba(16,185,129,0.2); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:20px;">🔍</div>
+                    <div>
+                        <div style="font-weight:600; font-size:14px;">ML Exception Triage Engine</div>
+                        <span class="badge badge-purple" style="margin-top:2px;">In Progress</span>
+                    </div>
+                </div>
+                <div style="font-size:13px; color:var(--text-dim); line-height:1.7; margin-bottom:14px;">ML classifier trained on historical reconciliation breaks — auto-categorizes exceptions by root cause (price tolerance, timing, corporate action, counterparty data). Surfaces highest-priority breaks first. Reduces mean time to resolution by 60%+ vs manual triage.</div>
+                <div class="card-title">Target Metrics</div>
+                <div style="font-size:13px; color:var(--text-dim);">92% classification accuracy threshold before production release. Currently at 84% on equity swap break dataset.</div>
+            </div>
+
+            <div class="card">
+                <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+                    <div style="width:40px; height:40px; background:rgba(59,130,246,0.2); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:20px;">🔌</div>
+                    <div>
+                        <div style="font-weight:600; font-size:14px;">API-Driven Testing Framework</div>
+                        <span class="badge badge-purple" style="margin-top:2px;">In Progress</span>
+                    </div>
+                </div>
+                <div style="font-size:13px; color:var(--text-dim); line-height:1.7; margin-bottom:14px;">Automated regression test suite triggered on every deployment — covers trade booking API, settlement instruction generation, reconciliation engine, and regulatory reporting endpoints. No manual QA regression cycle. Designed for 24/7 crypto operations where deployment windows don't exist.</div>
+                <div class="card-title">Architecture</div>
+                <div style="font-size:13px; color:var(--text-dim);">Data-driven test harness: golden source inputs → API call → response validation → assertion against expected output. Coverage tracked per endpoint.</div>
+            </div>
+
+            <div class="card">
+                <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+                    <div style="width:40px; height:40px; background:rgba(245,158,11,0.2); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:20px;">⛓️</div>
+                    <div>
+                        <div style="font-weight:600; font-size:14px;">On-Chain Reconciliation Engine</div>
+                        <span class="badge badge-gray" style="margin-top:2px;">Planned</span>
+                    </div>
+                </div>
+                <div style="font-size:13px; color:var(--text-dim); line-height:1.7; margin-bottom:14px;">Real-time reconciliation between internal book of records and on-chain wallet balances via blockchain node API. Auto-detects discrepancies in tokenized asset holdings. Anchors audit trail on-chain for regulatory examination readiness. Enabled by Helios data center node infrastructure.</div>
+                <div class="card-title">Dependencies</div>
+                <div style="font-size:13px; color:var(--text-dim);">Helios Phase 1 node provisioning (Q1 2026). Blockchain node API access. Internal ledger API endpoint.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Architecture Diagram (text-based) -->
+    <div class="card section">
+        <div class="section-header"><div class="section-title">Target Data Architecture — Event-Driven & API-Native</div></div>
+        <div style="display:grid; grid-template-columns: repeat(5, 1fr); gap:12px; text-align:center; padding:16px 0;">
+            {% set layers = [
+                {"label": "Front Office", "icon": "📊", "components": ["Multi-Asset OMS", "Crypto Desk", "GalaxyOne Retail"], "color": "var(--blue)"},
+                {"label": "Event Bus", "icon": "⚡", "components": ["Trade Events", "Position Events", "Market Data"], "color": "var(--purple)"},
+                {"label": "Ops Engine", "icon": "⚙️", "components": ["Booking Engine", "Recon Engine", "Settlement Engine"], "color": "var(--gold)"},
+                {"label": "AI Layer", "icon": "🤖", "components": ["Exception Triage", "Reg Monitor", "Predictive Alerts"], "color": "var(--green)"},
+                {"label": "Regulatory", "icon": "🏛️", "components": ["CFTC/DTCC", "HKMA OTCR", "EMIR / UK"], "color": "var(--text-dim)"},
+            ] %}
+            {% for layer in layers %}
+            <div>
+                <div style="background:var(--surface2); border:1px solid var(--border); border-radius:10px; padding:14px; border-top: 3px solid {{ layer.color }};">
+                    <div style="font-size:24px; margin-bottom:8px;">{{ layer.icon }}</div>
+                    <div style="font-size:12px; font-weight:700; color:{{ layer.color }}; margin-bottom:10px; text-transform:uppercase; letter-spacing:0.06em;">{{ layer.label }}</div>
+                    {% for item in layer.components %}
+                    <div style="font-size:11px; color:var(--text-dim); padding:4px 0; border-bottom: 1px solid var(--border);">{{ item }}</div>
+                    {% endfor %}
+                </div>
+                {% if not loop.last %}
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        <div style="text-align:center; font-size:12px; color:var(--text-muted); margin-top:12px;">All layers communicate via REST/event APIs. No batch file transfers. Real-time position and exception propagation.</div>
+    </div>
+
+    <!-- Automation Metrics -->
+    <div class="card section">
+        <div class="section-header"><div class="section-title">Automation Progress by Domain</div></div>
+        <canvas id="autoChart" height="80"></canvas>
+    </div>
+</div>
+
+<script>
+new Chart(document.getElementById('autoChart'), {
+    type: 'bar',
+    data: {
+        labels: ['Trade Booking', 'Confirmation', 'Clearing', 'Settlement', 'Reconciliation', 'Book of Records', 'Reg Reporting'],
+        datasets: [
+            { label: 'Current Automation %', data: [70, 90, 60, 45, 55, 30, 75], backgroundColor: 'rgba(124,58,237,0.7)', borderRadius: 4 },
+            { label: 'Target Automation %', data: [95, 98, 90, 88, 92, 80, 96], backgroundColor: 'rgba(16,185,129,0.3)', borderRadius: 4, borderDash: [5,5] }
+        ]
+    },
+    options: {
+        responsive: true,
+        plugins: { legend: { labels: { color: '#94a3b8', font: { size: 12 } } } },
+        scales: {
+            x: { ticks: { color: '#64748b', font: { size: 11 } }, grid: { color: 'rgba(30,45,69,0.5)' } },
+            y: { max: 100, ticks: { color: '#64748b', callback: v => v + '%' }, grid: { color: 'rgba(30,45,69,0.5)' } }
+        }
+    }
+});
+</script>
+{% endblock %}

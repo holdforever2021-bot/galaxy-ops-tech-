@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block title %}Strategic Alignment | Galaxy Ops Tech Roadmap{% endblock %}
+{% block content %}
+<div class="page">
+    <div class="page-header">
+        <div class="page-title">Strategic Alignment — Galaxy 2025–2030</div>
+        <div class="page-sub">How operations technology execution enables Galaxy's four strategic pillars</div>
+    </div>
+
+    <!-- CEO Quote -->
+    <div class="card section" style="border-left:4px solid var(--purple); background:rgba(124,58,237,0.05);">
+        <div style="font-size:16px; font-style:italic; color:var(--text-dim); line-height:1.7; margin-bottom:12px;">
+            "The line between traditional and digital finance is disappearing. If we're not a radically different company by 2030, we will have lost."
+        </div>
+        <div style="font-size:13px; color:var(--text-muted);">— Mike Novogratz, CEO · Galaxy Digital Q4 2025 Earnings</div>
+    </div>
+
+    <!-- Pillars -->
+    {% for p in pillars %}
+    <div class="card section" style="border-top: 3px solid {{ p.color }};">
+        <div style="display:grid; grid-template-columns: 280px 1fr 1fr; gap:28px; align-items:start;">
+            <!-- Pillar info -->
+            <div>
+                <div style="font-size:32px; margin-bottom:10px;">{{ p.icon }}</div>
+                <div style="font-size:18px; font-weight:700; margin-bottom:6px;">{{ p.name }}</div>
+                <span class="badge {% if p.status == 'Launched' %}badge-green{% elif p.status == 'Growing' %}badge-blue{% elif p.status == 'Expanding' %}badge-yellow{% else %}badge-purple{% endif %}" style="margin-bottom:12px; display:inline-block;">{{ p.status }}</span>
+                <div style="font-size:13px; color:var(--text-dim); line-height:1.6; margin-top:8px;">{{ p.description }}</div>
+                {% if p.demo_link is defined %}
+                <div style="margin-top:16px; padding:12px; background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.25); border-radius:8px;">
+                    <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--green); margin-bottom:6px; letter-spacing:0.06em;">Product Vision — Live Demo</div>
+                    <div style="font-size:12px; color:var(--text-dim); margin-bottom:8px;">Institutional trading platform built to demonstrate deep understanding of Galaxy's retail product roadmap. The GalaxyOne PM role may be filled — this offers something more.</div>
+                    <a href="{{ p.demo_link }}" target="_blank" style="font-size:12px; color:var(--green); text-decoration:none; font-weight:600;">galaxy.ankurjoshi-demo.com →</a>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Ops Impact -->
+            <div>
+                <div class="card-title">Operations Technology Impact</div>
+                <div style="font-size:13px; color:var(--text-dim); line-height:1.7; margin-bottom:16px;">{{ p.ops_impact }}</div>
+                <div class="card-title">Key Initiatives</div>
+                <div style="display:flex; flex-direction:column; gap:8px; margin-top:8px;">
+                    {% for init in p.initiatives %}
+                    <div style="display:flex; align-items:center; gap:10px; background:var(--surface2); padding:10px 14px; border-radius:8px; font-size:13px;">
+                        <span style="color:{{ p.color }}; font-size:10px;">●</span>
+                        {{ init }}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Relevant Background -->
+            <div style="background:var(--surface2); border-radius:10px; padding:16px;">
+                <div class="card-title">Relevant Delivered Experience</div>
+                <div style="display:flex; flex-direction:column; gap:10px; margin-top:8px;">
+                    {% if p.name == "Helios Data Centers" %}
+                    <div style="font-size:13px; line-height:1.6;">
+                        <div style="font-weight:600; color:var(--text); margin-bottom:4px;">Nearwater Capital — Full Infrastructure Build</div>
+                        <div style="color:var(--text-dim);">Provisioned complete multi-vendor technology stack from zero for a 24/7 live trading operation. Designed uptime requirements, vendor SLAs, and operational resilience frameworks for an SEC-regulated entity.</div>
+                    </div>
+                    <div style="font-size:13px; line-height:1.6;">
+                        <div style="font-weight:600; color:var(--text); margin-bottom:4px;">Live Demo Infrastructure</div>
+                        <div style="color:var(--text-dim);">Self-hosted on Digital Ocean — nginx, Gunicorn, systemd services, 4-worker auto-restart. Practical 24/7 uptime management experience.</div>
+                    </div>
+                    {% elif p.name == "Institutional Markets" %}
+                    <div style="font-size:13px; line-height:1.6;">
+                        <div style="font-weight:600; color:var(--text); margin-bottom:4px;">DTCC — G20 Cross-Industry Program</div>
+                        <div style="color:var(--text-dim);">Managed Dodd-Frank delivery across JPMorgan, Goldman, Citi, Morgan Stanley with direct CFTC/SEC engagement. SIMM, UTI, regulatory data quality at industry scale.</div>
+                    </div>
+                    <div style="font-size:13px; line-height:1.6;">
+                        <div style="font-weight:600; color:var(--text); margin-bottom:4px;">Nearwater — SBSD Registration</div>
+                        <div style="color:var(--text-dim);">Led full SEC SBSD application — one of the first standalone registrations. Designed all compliance, margin, and settlement infrastructure for institutional swap dealer operations.</div>
+                    </div>
+                    {% elif p.name == "GalaxyOne Retail" %}
+                    <div style="font-size:13px; line-height:1.6;">
+                        <div style="font-weight:600; color:var(--text); margin-bottom:4px;">NBC — AI Regulatory Watch Platform</div>
+                        <div style="color:var(--text-dim);">Product owner for LLM-based solution replacing manual regulatory monitoring. Directly transferable to retail-scale exception management and automated compliance alerting.</div>
+                    </div>
+                    <div style="font-size:13px; line-height:1.6;">
+                        <div style="font-weight:600; color:var(--text); margin-bottom:4px;">GalaxyOne Demo — Live</div>
+                        <div style="color:var(--text-dim);">Built a working institutional trading platform UI showing deep understanding of Galaxy's retail product vision. Covered calls, iron condors, options strategies — <a href="http://galaxy.ankurjoshi-demo.com" target="_blank" style="color:var(--green);">live here</a>.</div>
+                    </div>
+                    {% elif p.name == "Blockchain & DeFi" %}
+                    <div style="font-size:13px; line-height:1.6;">
+                        <div style="font-weight:600; color:var(--text); margin-bottom:4px;">Crypto Trading Bot — Live</div>
+                        <div style="color:var(--text-dim);">Built automated trading bot with Coinbase + Schwab Advanced Trade APIs — RSI strategies, volume analysis, automated risk controls. Hands-on CEX/DEX execution mechanics and crypto market microstructure.</div>
+                    </div>
+                    <div style="font-size:13px; line-height:1.6;">
+                        <div style="font-weight:600; color:var(--text); margin-bottom:4px;">Regulatory Framework — Digital Assets</div>
+                        <div style="color:var(--text-dim);">Working knowledge of FIT21/Clarity Act, SEC/CFTC jurisdictional framework, stablecoin regulation, and institutional tokenization of traditional assets.</div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

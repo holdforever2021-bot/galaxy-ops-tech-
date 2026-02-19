@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block title %}Trade Lifecycle | Galaxy Ops Tech Roadmap{% endblock %}
+{% block content %}
+<div class="page">
+    <div class="page-header">
+        <div class="page-title">Trade Lifecycle — TradFi to DeFi</div>
+        <div class="page-sub">End-to-end workflow migration: legacy infrastructure → blockchain-native operations</div>
+    </div>
+
+    <!-- Flow indicator -->
+    <div class="card section" style="overflow-x:auto;">
+        <div style="display:flex; align-items:center; gap:0; min-width:700px;">
+            {% for s in stages %}
+            <div style="flex:1; text-align:center; position:relative;">
+                <div style="background:var(--surface2); border:1px solid var(--border); border-radius:10px; padding:12px 8px; margin: 0 4px;
+                    {% if s.status == 'Complete' %}border-color:rgba(16,185,129,0.5);
+                    {% elif s.status == 'In Progress' or s.status == 'Migrating' %}border-color:rgba(124,58,237,0.5);
+                    {% elif s.status == 'Rebuilding' %}border-color:rgba(245,158,11,0.5);
+                    {% else %}border-color:var(--border);{% endif %}">
+                    <div style="font-size:20px; margin-bottom:6px;">{{ s.icon }}</div>
+                    <div style="font-size:11px; font-weight:600;">{{ s.stage }}</div>
+                    <div style="margin-top:6px;">
+                        {% if s.status == 'Complete' %}<span class="badge badge-green" style="font-size:10px;">{{ s.status }}</span>
+                        {% elif s.status in ['In Progress', 'Migrating'] %}<span class="badge badge-purple" style="font-size:10px;">{{ s.status }}</span>
+                        {% elif s.status == 'Rebuilding' %}<span class="badge badge-yellow" style="font-size:10px;">{{ s.status }}</span>
+                        {% else %}<span class="badge badge-gray" style="font-size:10px;">{{ s.status }}</span>{% endif %}
+                    </div>
+                </div>
+            </div>
+            {% if not loop.last %}
+            <div style="color:var(--text-muted); font-size:18px; flex-shrink:0;">→</div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Stage Detail Cards -->
+    {% for s in stages %}
+    <div class="card section">
+        <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:24px; align-items:start;">
+            <!-- Left: Stage info -->
+            <div>
+                <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+                    <div style="font-size:32px;">{{ s.icon }}</div>
+                    <div>
+                        <div style="font-size:18px; font-weight:700;">{{ s.stage }}</div>
+                        <div style="margin-top:4px;">
+                            {% if s.status == 'Complete' %}<span class="badge badge-green">{{ s.status }}</span>
+                            {% elif s.status in ['In Progress', 'Migrating'] %}<span class="badge badge-purple">{{ s.status }}</span>
+                            {% elif s.status == 'Rebuilding' %}<span class="badge badge-yellow">{{ s.status }}</span>
+                            {% else %}<span class="badge badge-gray">{{ s.status }}</span>{% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="card-title">Automation Level</div>
+                <div style="font-size:24px; font-weight:700; color:{% if s.automation > 70 %}var(--green){% elif s.automation > 45 %}var(--gold){% else %}var(--red){% endif %}; margin-bottom:6px;">{{ s.automation }}%</div>
+                <div class="progress-bar">
+                    <div class="progress-fill {% if s.automation > 70 %}progress-green{% elif s.automation > 45 %}progress-gold{% else %}progress-red{% endif %}" style="width:{{ s.automation }}%;"></div>
+                </div>
+                <div style="margin-top:16px;">
+                    <div class="card-title">Key Systems</div>
+                    <div style="display:flex; flex-wrap:wrap; gap:6px; margin-top:4px;">
+                        {% for sys in s.systems %}<span class="tag">{{ sys }}</span>{% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Middle: Current State -->
+            <div style="background:rgba(239,68,68,0.05); border:1px solid rgba(239,68,68,0.2); border-radius:10px; padding:16px;">
+                <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
+                    <span style="font-size:16px;">🏛️</span>
+                    <div style="font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--red);">Current — TradFi</div>
+                </div>
+                <div style="font-size:13px; line-height:1.7; color:var(--text-dim);">{{ s.tradfi }}</div>
+            </div>
+
+            <!-- Right: Target State -->
+            <div style="background:rgba(16,185,129,0.05); border:1px solid rgba(16,185,129,0.2); border-radius:10px; padding:16px;">
+                <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
+                    <span style="font-size:16px;">⛓️</span>
+                    <div style="font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--green);">Target — DeFi / On-Chain</div>
+                </div>
+                <div style="font-size:13px; line-height:1.7; color:var(--text-dim);">{{ s.defi }}</div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    <!-- Experience callout -->
+    <div class="card" style="border: 1px solid rgba(124,58,237,0.4); background: rgba(124,58,237,0.05);">
+        <div style="display:grid; grid-template-columns:auto 1fr; gap:20px; align-items:start;">
+            <div style="font-size:36px;">🏗️</div>
+            <div>
+                <div style="font-size:15px; font-weight:700; margin-bottom:8px;">Delivered across this full lifecycle — across multiple firms</div>
+                <div style="font-size:13px; color:var(--text-dim); line-height:1.7;">
+                    <strong style="color:var(--text);">Nearwater Capital:</strong> Built the complete TradFi lifecycle for an SEC-registered SBSD from zero — trade booking, margin (AcadiaSoft SIMM), settlement (TriOptima + BNY), regulatory reporting. &nbsp;·&nbsp;
+                    <strong style="color:var(--text);">ING:</strong> Re-architected OTC derivatives reporting pipeline — Murex XML → DTCC GTR, concurrent with DTCC's 2020 GTR 2.0 re-architecture. &nbsp;·&nbsp;
+                    <strong style="color:var(--text);">NBC:</strong> Directed CFTC Part 45 rewrite (130+ data elements), HKMA OTCR, EMIR — managed 40+ person cross-functional team including engineers and solutions architects.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+{% block title %}Dashboard | Galaxy Ops Tech Roadmap{% endblock %}
+{% block content %}
+<div class="page">
+    <div class="page-header">
+        <div>
+            <div class="page-title">Operations Technology Implementation Roadmap</div>
+            <div class="page-sub">Program Health Dashboard &nbsp;·&nbsp; NY & HK Teams &nbsp;·&nbsp; Updated Feb 2026</div>
+        </div>
+    </div>
+
+    <!-- KPI Row -->
+    <div class="grid-4 section">
+        <div class="card">
+            <div class="card-title">Active Workstreams</div>
+            <div class="metric-val" style="color:var(--purple-light);">{{ workstreams|length }}</div>
+            <div class="metric-label">Across NY & HK teams</div>
+            <div class="metric-delta delta-up">↑ 2 new in Q1 2026</div>
+        </div>
+        <div class="card">
+            <div class="card-title">Stories Completed</div>
+            <div class="metric-val" style="color:var(--green);">{{ done_stories }}<span style="font-size:18px; color:var(--text-muted);">/{{ total_stories }}</span></div>
+            <div class="metric-label">{{ ((done_stories / total_stories) * 100)|int }}% of roadmap delivered</div>
+            <div class="progress-bar" style="margin-top:10px;">
+                <div class="progress-fill progress-green" style="width:{{ ((done_stories / total_stories) * 100)|int }}%;"></div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-title">Critical Risks</div>
+            <div class="metric-val" style="color:var(--red);">{{ at_risk }}</div>
+            <div class="metric-label">High-severity items active</div>
+            <div class="metric-delta" style="color:var(--gold);">→ 2 mitigations in progress</div>
+        </div>
+        <div class="card">
+            <div class="card-title">Overall Program Health</div>
+            <div style="display:flex; align-items:center; gap:12px; margin-top:8px;">
+                <div style="width:56px; height:56px; border-radius:50%; border: 3px solid var(--gold); display:flex; align-items:center; justify-content:center; font-size:20px;">⚠️</div>
+                <div>
+                    <div style="font-size:18px; font-weight:700; color:var(--gold);">Amber</div>
+                    <div style="font-size:12px; color:var(--text-muted);">1 stream at-risk, 5 on track</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Workstream Table + Risk -->
+    <div class="grid-2 section">
+        <div class="card" style="grid-column: span 1;">
+            <div class="section-header">
+                <div class="section-title">Workstream Status</div>
+                <a href="/roadmap" style="font-size:12px; color:var(--purple-light); text-decoration:none;">View all epics →</a>
+            </div>
+            <table>
+                <thead><tr>
+                    <th>Workstream</th><th>Status</th><th>Progress</th><th>Risk</th>
+                </tr></thead>
+                <tbody>
+                {% for w in workstreams %}
+                <tr>
+                    <td>
+                        <div style="font-weight:500;">{{ w.name }}</div>
+                        <div style="font-size:11px; color:var(--text-muted);">{{ w.epic }} &nbsp;·&nbsp; {{ w.owner }}</div>
+                    </td>
+                    <td>
+                        {% if w.status == 'On Track' %}<span class="badge badge-green">{{ w.status }}</span>
+                        {% elif w.status == 'At Risk' %}<span class="badge badge-red">{{ w.status }}</span>
+                        {% elif w.status == 'In Progress' %}<span class="badge badge-purple">{{ w.status }}</span>
+                        {% elif w.status == 'Planning' %}<span class="badge badge-gray">{{ w.status }}</span>
+                        {% else %}<span class="badge badge-blue">{{ w.status }}</span>{% endif %}
+                    </td>
+                    <td style="min-width:120px;">
+                        <div style="font-size:12px; margin-bottom:4px;">{{ w.progress }}%</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill {% if w.risk == 'High' %}progress-red{% elif w.progress > 60 %}progress-green{% else %}progress-purple{% endif %}" style="width:{{ w.progress }}%;"></div>
+                        </div>
+                    </td>
+                    <td>
+                        {% if w.risk == 'High' %}<span class="risk-dot risk-high"></span><span style="color:var(--orange);">High</span>
+                        {% elif w.risk == 'Medium' %}<span class="risk-dot risk-medium"></span><span style="color:var(--gold);">Med</span>
+                        {% else %}<span class="risk-dot risk-low"></span><span style="color:var(--green);">Low</span>{% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:16px;">
+            <!-- Sprint Velocity Chart -->
+            <div class="card">
+                <div class="card-title">Sprint Velocity (Story Points)</div>
+                <canvas id="velocityChart" height="130"></canvas>
+            </div>
+            <!-- Top Risks -->
+            <div class="card">
+                <div class="section-header">
+                    <div class="section-title">Top Risks</div>
+                    <a href="/roadmap" style="font-size:12px; color:var(--purple-light); text-decoration:none;">All risks →</a>
+                </div>
+                {% for r in risks %}
+                <div style="padding: 10px 0; border-bottom: 1px solid var(--border);">
+                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+                        {% if r.severity == 'Critical' %}<span class="badge badge-red">{{ r.severity }}</span>
+                        {% elif r.severity == 'High' %}<span class="badge badge-yellow">{{ r.severity }}</span>
+                        {% else %}<span class="badge badge-gray">{{ r.severity }}</span>{% endif %}
+                        <span style="font-size:12px; color:var(--text-muted);">{{ r.workstream }}</span>
+                    </div>
+                    <div style="font-size:13px;">{{ r.description }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Strategic Pillars -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-title">Galaxy Strategic Pillars — Ops Tech Impact</div>
+            <a href="/strategy" style="font-size:12px; color:var(--purple-light); text-decoration:none;">Full alignment view →</a>
+        </div>
+        <div class="grid-4">
+            {% for p in pillars %}
+            <div class="card" style="border-top: 3px solid {{ p.color }};">
+                <div style="font-size:20px; margin-bottom:8px;">{{ p.icon }}</div>
+                <div style="font-size:14px; font-weight:600; margin-bottom:4px;">{{ p.name }}</div>
+                <span class="badge {% if p.status == 'Launched' %}badge-green{% elif p.status == 'Growing' %}badge-blue{% elif p.status == 'Expanding' %}badge-yellow{% else %}badge-purple{% endif %}">{{ p.status }}</span>
+                <div style="font-size:12px; color:var(--text-muted); margin-top:10px; line-height:1.5;">{{ p.ops_impact[:100] }}...</div>
+                {% if p.demo_link is defined %}
+                <a href="{{ p.demo_link }}" target="_blank" style="display:inline-block; margin-top:10px; font-size:11px; color:var(--green); text-decoration:none; border: 1px solid rgba(16,185,129,0.3); padding: 4px 10px; border-radius:20px;">🚀 Live Demo →</a>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Delivery Timeline -->
+    <div class="section">
+        <div class="card">
+            <div class="section-header">
+                <div class="section-title">Delivery Timeline — Key Milestones</div>
+            </div>
+            <div style="position:relative; padding: 16px 0;">
+                <div style="position:absolute; top:50%; left:0; right:0; height:2px; background:var(--border);"></div>
+                <div style="display:flex; justify-content:space-between; position:relative;">
+                    {% set milestones = [
+                        {"q": "Q4 2025", "item": "CFTC UPI Phase 2 Live", "done": true},
+                        {"q": "Q1 2026", "item": "Trade Booking API Migration", "done": true},
+                        {"q": "Q2 2026", "item": "Recon Engine + HK OTCR", "done": false},
+                        {"q": "Q3 2026", "item": "Settlement Automation", "done": false},
+                        {"q": "Q4 2026", "item": "DeFi On-Chain Integration", "done": false},
+                    ] %}
+                    {% for m in milestones %}
+                    <div style="text-align:center; width:18%;">
+                        <div style="width:14px; height:14px; border-radius:50%; background:{% if m.done %}var(--green){% else %}var(--border){% endif %}; border: 2px solid {% if m.done %}var(--green){% else %}var(--text-muted){% endif %}; margin: 0 auto 10px auto; position:relative; z-index:1;"></div>
+                        <div style="font-size:11px; font-weight:700; color:{% if m.done %}var(--green){% else %}var(--text-muted){% endif %};">{{ m.q }}</div>
+                        <div style="font-size:11px; color:var(--text-dim); margin-top:4px; line-height:1.4;">{{ m.item }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+new Chart(document.getElementById('velocityChart'), {
+    type: 'bar',
+    data: {
+        labels: ['Sp 10','Sp 11','Sp 12','Sp 13','Sp 14'],
+        datasets: [{
+            label: 'Completed',
+            data: [42, 38, 51, 47, 55],
+            backgroundColor: 'rgba(124,58,237,0.6)',
+            borderRadius: 4,
+        },{
+            label: 'Committed',
+            data: [45, 45, 50, 52, 55],
+            backgroundColor: 'rgba(30,45,69,0.8)',
+            borderRadius: 4,
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: { legend: { labels: { color: '#94a3b8', font: { size: 11 } } } },
+        scales: {
+            x: { ticks: { color: '#64748b' }, grid: { color: 'rgba(30,45,69,0.5)' } },
+            y: { ticks: { color: '#64748b' }, grid: { color: 'rgba(30,45,69,0.5)' } }
+        }
+    }
+});
+</script>
+{% endblock %}

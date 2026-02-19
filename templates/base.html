@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Galaxy Digital | Ops Tech Roadmap{% endblock %}</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #070b14;
+            --surface: #0f1623;
+            --surface2: #161f30;
+            --border: #1e2d45;
+            --purple: #7c3aed;
+            --purple-light: #a78bfa;
+            --gold: #f59e0b;
+            --green: #10b981;
+            --red: #ef4444;
+            --orange: #f97316;
+            --blue: #3b82f6;
+            --text: #e2e8f0;
+            --text-muted: #64748b;
+            --text-dim: #94a3b8;
+        }
+        body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; }
+
+        /* NAV */
+        nav { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 32px; display: flex; align-items: center; height: 64px; position: sticky; top: 0; z-index: 100; }
+        .nav-brand { display: flex; align-items: center; gap: 12px; margin-right: 48px; text-decoration: none; }
+        .nav-logo { width: 32px; height: 32px; background: linear-gradient(135deg, var(--purple), var(--blue)); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+        .nav-brand-text { font-size: 14px; font-weight: 700; color: var(--text); line-height: 1.2; }
+        .nav-brand-sub { font-size: 11px; color: var(--text-muted); font-weight: 400; }
+        .nav-links { display: flex; gap: 4px; flex: 1; }
+        .nav-link { padding: 8px 16px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 500; color: var(--text-dim); transition: all 0.2s; }
+        .nav-link:hover { background: var(--surface2); color: var(--text); }
+        .nav-link.active { background: rgba(124,58,237,0.15); color: var(--purple-light); }
+        .nav-badge { margin-left: auto; background: rgba(124,58,237,0.2); border: 1px solid rgba(124,58,237,0.4); color: var(--purple-light); padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+
+        /* LAYOUT */
+        .page { padding: 32px; max-width: 1400px; margin: 0 auto; }
+        .page-header { margin-bottom: 32px; }
+        .page-title { font-size: 24px; font-weight: 700; margin-bottom: 4px; }
+        .page-sub { font-size: 14px; color: var(--text-muted); }
+
+        /* CARDS */
+        .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; }
+        .card-sm { padding: 16px; }
+        .card-title { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 12px; }
+
+        /* GRID */
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+        .grid-auto { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+
+        /* METRICS */
+        .metric-val { font-size: 32px; font-weight: 700; line-height: 1; }
+        .metric-label { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+        .metric-delta { font-size: 12px; margin-top: 8px; }
+        .delta-up { color: var(--green); }
+        .delta-down { color: var(--red); }
+
+        /* BADGES */
+        .badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+        .badge-green { background: rgba(16,185,129,0.15); color: var(--green); border: 1px solid rgba(16,185,129,0.3); }
+        .badge-red { background: rgba(239,68,68,0.15); color: var(--red); border: 1px solid rgba(239,68,68,0.3); }
+        .badge-yellow { background: rgba(245,158,11,0.15); color: var(--gold); border: 1px solid rgba(245,158,11,0.3); }
+        .badge-purple { background: rgba(124,58,237,0.15); color: var(--purple-light); border: 1px solid rgba(124,58,237,0.3); }
+        .badge-blue { background: rgba(59,130,246,0.15); color: var(--blue); border: 1px solid rgba(59,130,246,0.3); }
+        .badge-gray { background: rgba(100,116,139,0.15); color: var(--text-dim); border: 1px solid rgba(100,116,139,0.3); }
+
+        /* PROGRESS BAR */
+        .progress-bar { background: var(--border); border-radius: 4px; height: 6px; overflow: hidden; }
+        .progress-fill { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
+        .progress-green { background: var(--green); }
+        .progress-purple { background: var(--purple); }
+        .progress-gold { background: var(--gold); }
+        .progress-red { background: var(--red); }
+
+        /* TABLE */
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 10px 16px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); border-bottom: 1px solid var(--border); }
+        td { padding: 14px 16px; font-size: 13px; border-bottom: 1px solid rgba(30,45,69,0.5); }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: rgba(255,255,255,0.02); }
+
+        /* SECTION */
+        .section { margin-bottom: 32px; }
+        .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+        .section-title { font-size: 16px; font-weight: 600; }
+
+        /* DIVIDER */
+        .divider { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+
+        /* TAG */
+        .tag { display: inline-block; background: var(--surface2); color: var(--text-dim); padding: 2px 8px; border-radius: 4px; font-size: 11px; font-family: monospace; }
+
+        /* RISK DOT */
+        .risk-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+        .risk-critical { background: var(--red); }
+        .risk-high { background: var(--orange); }
+        .risk-medium { background: var(--gold); }
+        .risk-low { background: var(--green); }
+
+        /* FOOTER */
+        footer { text-align: center; padding: 24px; color: var(--text-muted); font-size: 12px; border-top: 1px solid var(--border); margin-top: 48px; }
+
+        @media (max-width: 768px) {
+            .grid-4, .grid-3 { grid-template-columns: 1fr 1fr; }
+            .grid-2 { grid-template-columns: 1fr; }
+            nav { padding: 0 16px; }
+            .nav-links { display: none; }
+            .page { padding: 16px; }
+        }
+    </style>
+</head>
+<body>
+<nav>
+    <a class="nav-brand" href="/">
+        <div class="nav-logo">⚙️</div>
+        <div>
+            <div class="nav-brand-text">Galaxy Digital DEMO</div>
+            <div class="nav-brand-sub">Ops Technology Roadmap</div>
+        </div>
+    </a>
+    <div class="nav-links">
+        <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="/">Dashboard</a>
+        <a class="nav-link {% if request.path == '/roadmap' %}active{% endif %}" href="/roadmap">Workstreams</a>
+        <a class="nav-link {% if request.path == '/lifecycle' %}active{% endif %}" href="/lifecycle">Trade Lifecycle</a>
+        <a class="nav-link {% if request.path == '/strategy' %}active{% endif %}" href="/strategy">Strategic Alignment</a>
+        <a class="nav-link {% if request.path == '/automation' %}active{% endif %}" href="/automation">AI & Automation</a>
+        <a class="nav-link {% if request.path == '/steerco' %}active{% endif %}" href="/steerco" style="color:var(--gold); font-weight:600;">SteerCo</a>
+    </div>
+    <span class="nav-badge">FY 2025–2026 Roadmap</span>
+</nav>
+
+{% block content %}{% endblock %}
+
+<footer>
+    Galaxy Digital | Operations Technology Implementation Roadmap &nbsp;·&nbsp; Program Framework Demo &nbsp;·&nbsp; Confidential
+</footer>
+</body>
+</html>

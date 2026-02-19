@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}Workstreams | Galaxy Ops Tech Roadmap{% endblock %}
+{% block content %}
+<div class="page">
+    <div class="page-header">
+        <div class="page-title">Workstream Tracker — EPICs & Stories</div>
+        <div class="page-sub">Jira-style delivery tracking across all Operations Technology initiatives</div>
+    </div>
+
+    {% set story_colors = {'Done': 'badge-green', 'In Progress': 'badge-purple', 'To Do': 'badge-gray', 'Blocked': 'badge-red'} %}
+
+    {% for w in workstreams %}
+    {% set ws_stories = stories[w.id] %}
+    <div class="card section">
+        <!-- EPIC Header -->
+        <div style="display:flex; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:20px;">
+            <div>
+                <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
+                    <span class="tag">{{ w.epic }}</span>
+                    {% if w.status == 'On Track' %}<span class="badge badge-green">{{ w.status }}</span>
+                    {% elif w.status == 'At Risk' %}<span class="badge badge-red">{{ w.status }}</span>
+                    {% elif w.status == 'In Progress' %}<span class="badge badge-purple">{{ w.status }}</span>
+                    {% elif w.status == 'Planning' %}<span class="badge badge-gray">{{ w.status }}</span>
+                    {% else %}<span class="badge badge-blue">{{ w.status }}</span>{% endif %}
+                    {% if w.risk == 'High' %}<span class="badge badge-red">⚠ High Risk</span>
+                    {% elif w.risk == 'Medium' %}<span class="badge badge-yellow">◆ Medium Risk</span>{% endif %}
+                </div>
+                <div style="font-size:18px; font-weight:700;">{{ w.name }}</div>
+                <div style="font-size:13px; color:var(--text-muted); margin-top:4px;">{{ w.owner }} &nbsp;·&nbsp; {{ w.sprint }} &nbsp;·&nbsp; Target: {{ w.target }}</div>
+            </div>
+            <div style="text-align:right;">
+                <div style="font-size:28px; font-weight:700; color:{% if w.progress > 60 %}var(--green){% elif w.progress > 35 %}var(--gold){% else %}var(--red){% endif %};">{{ w.progress }}%</div>
+                <div style="font-size:12px; color:var(--text-muted);">{{ w.stories_done }}/{{ w.stories_total }} stories</div>
+                <div class="progress-bar" style="width:140px; margin-top:6px;">
+                    <div class="progress-fill {% if w.progress > 60 %}progress-green{% elif w.progress > 35 %}progress-gold{% else %}progress-red{% endif %}" style="width:{{ w.progress }}%;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stories -->
+        <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:10px;">
+            {% for s in ws_stories %}
+            <div style="background:var(--surface2); border:1px solid var(--border); border-radius:8px; padding:14px; border-left: 3px solid {% if s.status == 'Done' %}var(--green){% elif s.status == 'In Progress' %}var(--purple){% elif s.status == 'Blocked' %}var(--red){% else %}var(--border){% endif %};">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px; margin-bottom:8px;">
+                    <span class="tag" style="font-size:10px;">{{ s.id }}</span>
+                    <span class="badge {{ story_colors.get(s.status, 'badge-gray') }}">{{ s.status }}</span>
+                </div>
+                <div style="font-size:13px; line-height:1.5;">{{ s.title }}</div>
+                <div style="font-size:11px; color:var(--text-muted); margin-top:8px;">{{ s.points }} pts</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+
+    <!-- Risk Register -->
+    <div class="card section">
+        <div class="section-header">
+            <div class="section-title">Risk Register</div>
+            <span class="badge badge-red">{{ risks|length }} Active</span>
+        </div>
+        <table>
+            <thead><tr>
+                <th>ID</th><th>Workstream</th><th>Description</th><th>Severity</th><th>Mitigation</th>
+            </tr></thead>
+            <tbody>
+            {% for r in risks %}
+            <tr>
+                <td><span class="tag">{{ r.id }}</span></td>
+                <td style="font-weight:500; color:var(--text-dim);">{{ r.workstream }}</td>
+                <td style="max-width:320px;">{{ r.description }}</td>
+                <td>
+                    {% if r.severity == 'Critical' %}<span class="badge badge-red">{{ r.severity }}</span>
+                    {% elif r.severity == 'High' %}<span class="badge badge-yellow">{{ r.severity }}</span>
+                    {% else %}<span class="badge badge-gray">{{ r.severity }}</span>{% endif %}
+                </td>
+                <td style="font-size:12px; color:var(--text-dim); max-width:280px;">{{ r.mitigation }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
