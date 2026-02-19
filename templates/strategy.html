@@ -26,10 +26,13 @@
                 <span class="badge {% if p.status == 'Launched' %}badge-green{% elif p.status == 'Growing' %}badge-blue{% elif p.status == 'Expanding' %}badge-yellow{% else %}badge-purple{% endif %}" style="margin-bottom:12px; display:inline-block;">{{ p.status }}</span>
                 <div style="font-size:13px; color:var(--text-dim); line-height:1.6; margin-top:8px;">{{ p.description }}</div>
                 {% if p.demo_link is defined %}
-                <div style="margin-top:16px; padding:12px; background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.25); border-radius:8px;">
+                <div style="margin-top:16px; padding:14px; background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.4); border-radius:8px; position:relative;">
                     <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--green); margin-bottom:6px; letter-spacing:0.06em;">Product Vision — Live Demo</div>
-                    <div style="font-size:12px; color:var(--text-dim); margin-bottom:8px;">Institutional trading platform built to demonstrate deep understanding of Galaxy's retail product roadmap. The GalaxyOne PM role may be filled — this offers something more.</div>
-                    <a href="{{ p.demo_link }}" target="_blank" style="font-size:12px; color:var(--green); text-decoration:none; font-weight:600;">galaxy.ankurjoshi-demo.com →</a>
+                    <div style="font-size:12px; color:var(--text-dim); margin-bottom:12px;">Institutional trading platform built to demonstrate deep understanding of Galaxy's retail product roadmap.</div>
+                    <a href="{{ p.demo_link }}" target="_blank" class="demo-cta-btn">
+                        <span class="pulse-dot"></span>
+                        Launch GalaxyOne Demo →
+                    </a>
                 </div>
                 {% endif %}
             </div>
@@ -78,7 +81,7 @@
                     </div>
                     <div style="font-size:13px; line-height:1.6;">
                         <div style="font-weight:600; color:var(--text); margin-bottom:4px;">GalaxyOne Demo — Live</div>
-                        <div style="color:var(--text-dim);">Built a working institutional trading platform UI showing deep understanding of Galaxy's retail product vision. Covered calls, iron condors, options strategies — <a href="http://galaxy.ankurjoshi-demo.com" target="_blank" style="color:var(--green);">live here</a>.</div>
+                        <div style="color:var(--text-dim);">Built a working institutional trading platform UI showing deep understanding of Galaxy's retail product vision. Covered calls, iron condors, options strategies — <a href="https://galaxyone-demo.onrender.com" target="_blank" style="color:var(--green);">live here</a>.</div>
                     </div>
                     {% elif p.name == "Blockchain & DeFi" %}
                     <div style="font-size:13px; line-height:1.6;">

@@ -101,7 +101,7 @@ STRATEGIC_PILLARS = [
         "ops_impact": "High-volume retail trade processing. Real-time settlement at scale. Exception management for millions of transactions.",
         "initiatives": ["Retail trade booking at scale", "Real-time exception management", "Automated retail settlement"],
         "color": "#10b981",
-        "demo_link": "http://galaxy.ankurjoshi-demo.com"
+        "demo_link": "https://galaxyone-demo.onrender.com"
     },
     {
         "name": "Blockchain & DeFi",
